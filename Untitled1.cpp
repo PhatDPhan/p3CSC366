@@ -33,22 +33,29 @@ int main()
 	int number_of_lines;
 	
 	//read line by line
-	//while (getline(inFile,x))	
+	while (getline(inFile,x))	
 	//read word by word (one space => next line)
-	while (inFile >> x)
+	//while (inFile >> x)
 	{
 			
-	//	print the x to screen;
+		//	print the x to screen;		
+		// checked - worked
 		//std:: cout << x << endl;
 		
-		std:: cout << x << endl;
+		// save the damn line to array of that number of line		
+		a[number_of_lines] = x;
 		
+		//count number of line
 		number_of_lines++;
 				
 	}
 	
+	//checked-worked. print line 2
+	std:: cout << a[1];
 	
-	std:: cout << number_of_lines;
+	//print total number of line
+	//checked - worked
+	//std:: cout << number_of_lines;
 	
 	
 	//close the file
