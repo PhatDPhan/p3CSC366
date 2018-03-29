@@ -24,13 +24,32 @@ int main()
     exit(1);   // call system to stop
 	}
 	
+	string a[1000];
 	string x;
 	
 	//read the file
-	while (getline(inFile,x))
+
+	//counter how many lines in the text file
+	int number_of_lines;
+	
+	//read line by line
+	//while (getline(inFile,x))	
+	//read word by word (one space => next line)
+	while (inFile >> x)
 	{
-		cout << x << endl;
+			
+	//	print the x to screen;
+		//std:: cout << x << endl;
+		
+		std:: cout << x << endl;
+		
+		number_of_lines++;
+				
 	}
+	
+	
+	std:: cout << number_of_lines;
+	
 	
 	//close the file
 	inFile.close();
