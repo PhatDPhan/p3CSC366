@@ -1,4 +1,4 @@
-// Tokenzing
+// Tokenizing
 // Phat Phan, La Salle University
 // project 3 - CSC366
  
