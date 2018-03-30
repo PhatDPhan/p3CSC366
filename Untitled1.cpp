@@ -1,4 +1,6 @@
-// Simple C++ program to display "Hello World"
+// Tokenzing
+// Phat Phan, La Salle University
+// project 3 - CSC366
  
 // Header file for input output functions
 #include <iostream>
