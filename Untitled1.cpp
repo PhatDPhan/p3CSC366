@@ -13,7 +13,7 @@ using namespace std;
  
  
  
- // Returns true if s is a number else false
+// Returns true if s is a number else false
 bool isNumber(string s)
 {
     for (int i = 0; i < s.length(); i++)
@@ -22,10 +22,6 @@ bool isNumber(string s)
  
     return true;
 }
- 
- 
- 
- 
  
 // main function -
 // where the execution of program begins
@@ -44,83 +40,65 @@ int main()
     exit(1);   // call system to stop
 	}
 	
-	string a[1000];
+	//array to hold each line
+	string a[100];
+	
+	//string to hold each line
 	string x;
-	
-	string tableEntry[60];
-	
 	//read the file
 
 	//counter how many lines in the text file
 	int number_of_lines;
-	//
-	int number_of_words;
+
 	
 	//read line by line
-	//while (getline(inFile,x))	
+	while (getline(inFile,x))	
 	//read word by word (one space => next line)
-	while (inFile >> x)
-	{
-			
-		//	print the x to screen;		
-		// checked - worked
-		//std:: cout << x << endl;
-		
-		// save the damn line to array of that number of line		
-		a[number_of_words] = x;
+	//while (inFile >> x)
+	{			
+		// save the line/word to array of that number of line		
+		//a[number_of_words] = x;
+		a[number_of_lines] = x;
 		
 		//count number of line
-		//number_of_lines++;
-		
-		number_of_words++;
+		number_of_lines++;		
+		//number_of_words++;
 				
-	}
-	
-	//checked-worked. print line 2
-	//std:: cout << a[2];
+	}//end white
 	
 	
+	//create a 2 dimensional string array
+	string LineWord[50][50];
 	
-	string y;
-	for(int i=0; i<number_of_words; i++)
+	
+	//loop through each line and put words in each line to the array
+	for(int k=0;k<number_of_lines;k++)
 	{
-		if(a[i] == "cmt")
-		{
-			cout << i << endl;
-			cout << a[i] << endl;
-			cout << "this is a comment"<< endl;			
-		}else if(a[i] == "get")
-		{
-			cout << i<< endl;
-			cout << a[i] << endl;
-			cout << "this is a read method"<< endl;
-		}else if(a[i] == "output")
-		{
-			cout << i<< endl;
-			cout << a[i] << endl;
-			cout << "this is a write method"<< endl;
-		}else if(a[i] == "goto")
-		{
-			cout << i<< endl;
-			cout << a[i] << endl;
-			cout << "this is a branch"<< endl;
-		}else if (a[i] == "stop")
-		{
-			cout << i<< endl;
-			cout << a[i] << endl;
-			cout << "this is a halt method"<< endl;
-		}else if (isNumber(a[i]))
-		{
-			//do sth
-			//cout << "move to this line number"<< endl;
-		}
-		
-		
-		
-	}
-	//print total number of line
-	//checked - worked
-	//std:: cout << number_of_lines;
+	istringstream iss(a[k]);
+    	for(int f=0; f<sizeof(a[k]);f++)
+    	{
+        	string word;
+        	iss >> word;
+	
+			//2 dimensional array hold value
+			// the first number is row, which is line number, second is colum, location of element in each row
+			LineWord[k][f] = word;
+
+    	}//end inner for	
+	}//end outter for
+	
+	
+	        	
+        for(int r=0;r<number_of_lines;r++)
+        {
+				for (int c=0; c<1000;c++)
+				{
+					if()
+				}//end inner for
+		} //end outer for
+	
+	
+	
 	
 	
 	//close the file
