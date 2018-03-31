@@ -87,13 +87,34 @@ int main()
     	}//end inner for	
 	}//end outter for
 	
+	//counter how many variables
+	int variable=0;
 	
-	        	
+	//counter how many constants
+	int cons=0;
+	
+	
+	int cv=0;
+	//array to store what line has contant and variable
+	int CVcount[1000];
+	
+	//memory location will be the first word in each line
+	
         for(int r=0;r<number_of_lines;r++)
         {
 				for (int c=0; c<1000;c++)
 				{
-					if()
+					if(LineWord[r][c]== "=")
+					{
+						cout << LineWord[r][c-1] << "This is a name of variable" << endl;
+						variable++;
+						
+						cout << LineWord[r][c+1] << "This is a constant" << endl;
+						cons++;		
+						
+						CVcount[cv] = r;		
+						cv++;		
+					}
 				}//end inner for
 		} //end outer for
 	
