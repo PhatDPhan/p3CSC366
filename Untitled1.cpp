@@ -68,7 +68,7 @@ int main()
 	
 	
 	//create a 2 dimensional string array
-	string LineWord[50][50];
+	string LineWord[100][50];
 	
 	
 	//loop through each line and put words in each line to the array
@@ -87,34 +87,80 @@ int main()
     	}//end inner for	
 	}//end outter for
 	
+	//Location of line
+	int SymbolLine[100];
+	
+	//Location of line after goto
+	int SymbolLineGoto[100];
+	//line after goto count
+	int lineGotoR;
+	int lineGotoC;
+	
+	//Location of a literal value
+	int SymbolLV[100];
+	
+		
+	//Location of a variable
+	int SymbolVar[100];
+	
+	//var counter 
+	int varR;
+	int varC;
+	
+	
+	
 	//counter how many variables
-	int variable=0;
+	int variable;
 	
 	//counter how many constants
-	int cons=0;
+	int cons;	
 	
 	
-	int cv=0;
-	//array to store what line has contant and variable
-	int CVcount[1000];
-	
-	//memory location will be the first word in each line
-	
+	//memory location will be the first word in each line	
         for(int r=0;r<number_of_lines;r++)
         {
-				for (int c=0; c<1000;c++)
-				{
-					if(LineWord[r][c]== "=")
+				for (int c=0; c<50;c++)
+				{		
+				
+					//array SymbolLine will hold the coordinate of line number in pair
+					//and now number and the first word is a line number
+					
+					//do sth
+					
+					
+					//after goto must be an line number
+					if(LineWord[r][c]=="goto")	
 					{
-						cout << LineWord[r][c-1] << "This is a name of variable" << endl;
-						variable++;
-						
-						cout << LineWord[r][c+1] << "This is a constant" << endl;
-						cons++;		
-						
-						CVcount[cv] = r;		
-						cv++;		
+					//do sth	
 					}
+
+					//after get or if. it must be a variable name
+					if(LineWord[r][c]=="get"
+					{
+						//do sth
+					}
+					
+					//after if  must be variable name
+					if(LineWord[r][c]=="if")
+					 {
+					 	//do sth. I mean store value r and c to array or linkelist
+					 }
+					 
+					 
+					 //between "=" will be variable and literal
+					 if(LineWord[r][c]=="=")
+					 {
+					 	
+					 	//store and determin variable or literal interger
+					 }
+					 
+					 
+					 //after output will be variable or literal interge
+					 if(LineWord[r][c]=="output")
+					 
+					 
+					 
+
 				}//end inner for
 		} //end outer for
 	
