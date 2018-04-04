@@ -8,12 +8,14 @@
 #include <fstream> 
 #include <sstream>
 #include <string>
+#include <vector>
+
 
 using namespace std;
  
  
  
-// Returns true if s is a number else false
+// Returns true if string is a number else false
 bool isNumber(string s)
 {
     for (int i = 0; i < s.length(); i++)
@@ -30,10 +32,12 @@ int main()
     // streaming file
     ifstream inFile;
     
-    //inFile point to the location of file you want to read
-    inFile.open("C:\\Users\\phand\\Desktop\\cpp\\p3.txt");
+    //inFile point to the location of the file you want to read
+    // can be the path or just name of the file if it's in the same folder of the program
+    // path checked: C:\\Users\\phand\\Desktop\\cpp\\p3.txt
+    inFile.open("p3.txt");
     
-    //check if the file is not readable
+    //check if the file is readable or not
     if (!inFile) 
 	{
     cerr << "Unable to open file datafile.txt";
@@ -41,11 +45,11 @@ int main()
 	}
 	
 	//array to hold each line
-	string a[100];
+	string a[50];
 	
 	//string to hold each line
+	// it's somehow has dynamic lenght ?!
 	string x;
-	//read the file
 
 	//counter how many lines in the text file
 	int number_of_lines;
@@ -68,107 +72,207 @@ int main()
 	
 	
 	//create a 2 dimensional string array
-	string LineWord[100][50];
+	//number_of_lines of code as max, assuming each line has as most 10 words
+	//it's a waste, but didn't find better solutions at the moment
+	string LineWord[number_of_lines][20];
 	
 	
 	//loop through each line and put words in each line to the array
+	//this will populate squence of token into 2D array
 	for(int k=0;k<number_of_lines;k++)
 	{
+		//read each line
 	istringstream iss(a[k]);
+		//loop through each word in each line
     	for(int f=0; f<sizeof(a[k]);f++)
     	{
+    		
         	string word;
-        	iss >> word;
-	
+        	iss >> word;	
 			//2 dimensional array hold value
-			// the first number is row, which is line number, second is colum, location of element in each row
+			// the first number is row, which is the number of line (not the line number in IML), second is colum, location of element in each row(words, tokens)
 			LineWord[k][f] = word;
 
     	}//end inner for	
 	}//end outter for
 	
-	//Location of line
-	int SymbolLine[100];
-	
-	//Location of line after goto
-	int SymbolLineGoto[100];
-	//line after goto count
-	int lineGotoR;
-	int lineGotoC;
-	
-	//Location of a literal value
-	int SymbolLV[100];
-	
-		
-	//Location of a variable
-	int SymbolVar[100];
-	
-	//var counter 
-	int varR;
-	int varC;
 	
 	
+	//RL stands for row location
+	//CL stands for column location
 	
-	//counter how many variables
-	int variable;
+	//arrray to hold variable location row
+	int varlocationR[100];
+	//arrray to hold variable location second array
+	int varlocationC[100];
+	//counter of variable row/line location
+	int varRL=0;
+	//counter of literal integer colum location;
+	int varCL=0;
+	 
+	 
+	//array to hold literal integer location in 2darray
+	int numR[100];
+	int numC[100];
 	
-	//counter how many constants
-	int cons;	
+	//counter 
+	int numCountR=0;
+	int numCountC=0;
 	
+	//array to hold line number of IML after "goto"
+	int gotoR[100];
+	int gotoC[100];
 	
-	//memory location will be the first word in each line	
+	//counter
+	int gotoCountR=0;
+	int gotoCountC=0;
+	
+	//loop through the 2D array to store the location of the symbol you want	
         for(int r=0;r<number_of_lines;r++)
         {
-				for (int c=0; c<50;c++)
-				{		
-				
-					//array SymbolLine will hold the coordinate of line number in pair
-					//and now number and the first word is a line number
-					
-					//do sth
-					
-					
-					//after goto must be an line number
-					if(LineWord[r][c]=="goto")	
+				for (int c=0; c<20;c++)
+				{	
+									
+					//after get . it must be a variable name
+					if(!LineWord[r][c].compare("get"))
 					{
-					//do sth	
-					}
-
-					//after get or if. it must be a variable name
-					if(LineWord[r][c]=="get"
-					{
-						//do sth
+						varlocationR[varRL] = r;
+						varlocationC[varCL] = c+1 ;
+						varRL++;
+						varCL++;
 					}
 					
 					//after if  must be variable name
-					if(LineWord[r][c]=="if")
+					if(!LineWord[r][c].compare("if"))
 					 {
-					 	//do sth. I mean store value r and c to array or linkelist
+					 	varlocationR[varRL] = r;
+						varlocationC[varCL] = c+1 ;
+						varRL++;
+						varCL++;
+					 }
+					 
+					//after let  must be variable name
+					if(!LineWord[r][c].compare("let"))
+					 {
+					 	varlocationR[varRL] = r;
+						varlocationC[varCL] = c+1 ;
+						varRL++;
+						varCL++;
+					 }
+					 
+					//after "=, >, <, or !=.  ", must be variable or literal integer
+					if(!LineWord[r][c].compare("=") || !LineWord[r][c].compare(">") || !LineWord[r][c].compare("<") ||!LineWord[r][c].compare("!="))
+					 {
+					 	if(!isNumber(LineWord[r][c+1]))
+					 	{
+					 	varlocationR[varRL] = r;
+						varlocationC[varCL] = c+1 ;
+						varRL++;
+						varCL++;
+						}else
+						{
+							numR[numCountR] = r;
+							numC[numCountC] = c+1;
+							
+							numCountR++;
+							numCountC++;
+						}
+					 }
+					
+					//after "+,-,*,/", must be variable or literal integer
+					if(!LineWord[r][c].compare("-") || !LineWord[r][c].compare("+") || !LineWord[r][c].compare("/") || !LineWord[r][c].compare("*") )
+					 {
+					 	if(!isNumber(LineWord[r][c+1]))
+					 	{
+					 	varlocationR[varRL] = r;
+						varlocationC[varCL] = c+1 ;
+						varRL++;
+						varCL++;
+						}else
+						{
+							numR[numCountR] = r;
+							numC[numCountC] = c+1;
+							
+							numCountR++;
+							numCountC++;
+						}
 					 }
 					 
 					 
-					 //between "=" will be variable and literal
-					 if(LineWord[r][c]=="=")
-					 {
-					 	
-					 	//store and determin variable or literal interger
-					 }
+					//after goto . it must be a IML line number
+					if(!LineWord[r][c].compare("goto"))
+					{
+						gotoR[gotoCountR] = r;
+						gotoC[gotoCountC] = c+1 ;
+						gotoCountR++;
+						gotoCountC++;
+					}
 					 
-					 
-					 //after output will be variable or literal interge
-					 if(LineWord[r][c]=="output")
-					 
-					 
-					 
-
+			
 				}//end inner for
+	
 		} //end outer for
+			
+
+
+	cout<< "I have " << varRL << " variable/s. Below are these location in 2D array";
+	
+	cout << endl;
+	
+	//the location of each variable, what line it on and what elecment is it
+	for (int i=0;i<varRL;i++)
+	{
+		cout << varlocationR[i];
+		cout << varlocationC[i];
+		cout << endl;
+	}
+	
+	cout << endl;
+	
+	cout<< "I have " << numCountR << " literal integer/s. Below are these location in 2D array";
+	
+	cout << endl;
+	
+	//the location of each variable, what line it on and what elecment is it
+	for (int i=0;i<numCountR;i++)
+	{
+		cout << numR[i];
+		cout << numC[i];
+		cout << endl;
+	}
+	
+	cout << endl;
+	cout << "Below are line number in IML location in 2D array after 'goto' ";
+	cout << endl;
+		//the location of each variable, what line it on and what elecment is it
+	for (int i=0;i<gotoCountR;i++)
+	{
+		cout << gotoR[i];
+		cout << gotoC[i];
+		cout << endl;
+	}
+	
+	cout << endl;
+	
+	cout <<"to get the actual value of literal integer name of variable of all above we just need to plug the number in 2Darray. For example";
+	cout << endl;
+	cout<< "This is the value of second literal integer in the plain text: ";
+	cout<< LineWord[numR[1]][numC[1]];
+	cout << endl;
+	cout<< "its location in 2D array is: " << numR[1] << numC[1];
+	
+	cout << endl;
+	cout << endl;
+	cout << "Below are line number in IML. Line number of IML is the first word on each code line so don't need to remember";
+	cout << endl;
+	//first word of each line is a line number in IML. No need to store	
+	for(int i=0;i<number_of_lines;i++)
+	{
+		cout << LineWord[i][0];
+		cout << endl;
+	}
 	
 	
-	
-	
-	
-	//close the file
 	inFile.close();
     return 0;
 }
